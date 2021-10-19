@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-version=$(git tag | grep v | head -n 1)
+version=$(git tag | grep v | tail -n 1)
 prefix=/usr
 
 for arch in arm-linux-gnueabi x86_64-linux-gnu
