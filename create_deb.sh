@@ -18,10 +18,14 @@ do
   mkdir -p deb_build/$BUILDDIR$prefix/share/man/man1
   mkdir -p deb_build/$BUILDDIR/etc/piaq
   make install ARCH=$arch prefix=$prefix DESTDIR=deb_build/$BUILDDIR
+  sed -e "s/piaq 0.0/piaq $version/g" -i deb_build/$BUILDDIR$prefix/share/man/man1/piaq.1
+  sed -e "s/Version: 0.0/Version: $version/g" -i deb_build/$BUILDDIR/DEBIAN/control
+  sed -e "s/Version: v/Version: /g" -i deb_build/$BUILDDIR/DEBIAN/control
+  cat deb_build/$BUILDDIR$prefix/share/man/man1/piaq.1
+  cat deb_build/$BUILDDIR/DEBIAN/control
   pushd deb_build
   dpkg-deb --build --root-owner-group $BUILDDIR
   popd
 done
 
 mv deb_build/*.deb deb/
-rm -rf deb_build

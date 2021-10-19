@@ -31,6 +31,7 @@ int get(std::string location, float* out_val){
 
 int main (){
   int sleep_s;
+  int port;
   std::vector<std::string> endpoints;
   std::vector<std::string> keynames;
   std::vector<std::string> values;
@@ -48,6 +49,21 @@ int main (){
     return 1;
   }
 
+  //Load port:
+  auto config_port = config_lookup(&config,"port");
+  if (!config_port){
+    std::cerr<<"'port' not found in config. Defaulting to 8050"<<std::endl;
+    port = 8050;
+  } else {
+    auto port_desired =  config_setting_get_int(config_port) ;
+    if (port_desired==0){
+      std::cerr<<"'port'="<<port_desired<<" not valid!"<<std::endl;
+      return 1;
+    }
+    port = port_desired;
+  }
+
+  //Load sleep:
   auto config_sleep = config_lookup(&config,"sleep");
   if (!config_sleep){
     std::cerr<<"'sleep' not found in config. Defaulting to 5s"<<std::endl;
@@ -66,6 +82,7 @@ int main (){
   }
   
 
+  //Load Endpoints:
   auto config_endpoints= config_lookup(&config,"endpoints");
   if (!config_endpoints){
     std::cerr<<"endpoints not found in config file!"<<std::endl;
@@ -115,7 +132,7 @@ int main (){
   std::unordered_map<std::string,std::string> kvpairs;
 
   HttpServer server;
-  server.config.port=8050;
+  server.config.port=port;
 
   server.resource["^/$"]["GET"]=[&keynames,&values](std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request){
 

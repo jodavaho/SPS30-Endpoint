@@ -13,7 +13,7 @@ install: bin/piaq-$(ARCH)
 	cp bin/piaq-$(ARCH) bin/piaq
 	install bin/piaq $(DESTDIR)$(prefix)/bin/
 	install man/piaq.1 $(DESTDIR)$(prefix)/share/man/man1/
-	install config/piaq.config $(DESTDIR)/etc/piaq/
+	install config/piaq.conf $(DESTDIR)/etc/piaq/
 
 clean:
 	rm bin -rf
