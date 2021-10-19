@@ -37,7 +37,7 @@ int main (){
 
   //I like the C API better
   config_t config; config_init(&config);
-  if (config_read_file(&config, "test.config") != CONFIG_TRUE)
+  if (config_read_file(&config, "/etc/piaq/piaq.conf") != CONFIG_TRUE)
   {
     std::cerr<<"problem in config file!"<<std::endl;
     std::cerr
