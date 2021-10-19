@@ -1,6 +1,8 @@
-# Binary requires
+# Binary requires 
 
 - None
+
+See [Installing Binary](Installing-binary-only)
 
 # Build Requires
 
@@ -10,19 +12,26 @@
 
 # Building & Installing from Source
 
+Build for local machine:
+
+```
+make
+make install
+```
+
+In general:
+
 ```
 make ARCH=<arch triplet> 
 make install prefix=<optional prefix>
 ```
+By default, `ARCH=$(gcc -dumpmachine)`. You can use this to cross compile. 
 
-For example:
+Example, cross compile for arm:
 
 ```
-make ARCH=x86_64-linux-gnu
-make install prefix=/usr/local
+make ARCH=arm-linux-gnueabi
 ```
-
-By default, `ARCH=$(gcc -dumpmachine)`
 
 # Installing binary only
 
