@@ -1,4 +1,5 @@
 local/
 deps/
+bin/
 build*
 .syntastic_cpp_config

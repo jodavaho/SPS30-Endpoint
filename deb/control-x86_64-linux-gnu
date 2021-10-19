@@ -1,0 +1,5 @@
+Package: piaq
+Version: 0.1
+Architecture: amd64
+Maintainer: Joshua Vander Hook <j.vanderhook@gmail.com>
+Description: Serves sps30 data as a prometheus endpoint.
