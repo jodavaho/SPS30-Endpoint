@@ -2,7 +2,7 @@
 
 - None
 
-See [Installing Binary](Installing-binary-only)
+See [Installing Binary](#installing-binary-only)
 
 # Build Requires
 
