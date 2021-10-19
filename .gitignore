@@ -1,2 +1,4 @@
 local/
 deps/
+build*
+.syntastic_cpp_config
