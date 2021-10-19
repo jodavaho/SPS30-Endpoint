@@ -6,8 +6,11 @@ See [Installing Binary](#installing-binary-only)
 
 # Build Requires
 
-- GNU Make
-- GCC/G++
+Try: `fetch_deps.sh` on ubuntu
+
+- libconfig-dev
+- make (gnu)
+- g++
 - libasio-dev
 
 # Building & Installing from Source

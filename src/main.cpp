@@ -1,4 +1,5 @@
 #include <iostream>
+#include <libconfig.h>
 #include <fstream>
 #include <string>
 #include <array>
@@ -14,14 +15,14 @@ int get(std::string location, float* out_val){
 
   if (!file){
     std::cerr<<"Error opening:"<<location<<std::endl;
-    return 1;
+    return 2;
   } 
 
   file >> *out_val;
   
   if (!file){
     std::cerr<<"Unable to read value from file:"<<location<<std::endl;
-    return 2;
+    return 3;
   }
 
   file.close();
@@ -29,27 +30,86 @@ int get(std::string location, float* out_val){
 }
 
 int main (){
+  int sleep_s;
+  std::vector<std::string> endpoints;
+  std::vector<std::string> keynames;
+  std::vector<std::string> values;
 
-  std::array<std::string,4> endpoints={
-    "/sys/bus/i2c/devices/1-0069/iio:device0/in_massconcentration_pm1_input",
-    "/sys/bus/i2c/devices/1-0069/iio:device0/in_massconcentration_pm2p5_input",
-    "/sys/bus/i2c/devices/1-0069/iio:device0/in_massconcentration_pm4_input",
-    "/sys/bus/i2c/devices/1-0069/iio:device0/in_massconcentration_pm10_input",
-  };
+  //I like the C API better
+  config_t config; config_init(&config);
+  if (config_read_file(&config, "test.config") != CONFIG_TRUE)
+  {
+    std::cerr<<"problem in config file!"<<std::endl;
+    std::cerr
+      <<config_error_file(&config)
+      <<":"<<config_error_line(&config)
+      <<" \""<<config_error_text(&config)<<"\""
+      <<std::endl;
+    return 1;
+  }
 
-  std::array<std::string,4> keynames={
-    "pm_010",
-    "pm_025",
-    "pm_040",
-    "pm_100",
-  };
+  auto config_sleep = config_lookup(&config,"sleep");
+  if (!config_sleep){
+    std::cerr<<"'sleep' not found in config. Defaulting to 5s"<<std::endl;
+    sleep_s = 5;
+  } else {
+    auto sleep_desired =  config_setting_get_int(config_sleep) ;
+    if (sleep_desired == 0){
+      sleep_desired = std::floor(config_setting_get_float(config_sleep));
+    }
+    std::cerr<<"Read: sleep:"<<sleep_desired<<std::endl;
+    if (sleep_desired==0){
+      std::cerr<<"'sleep'="<<sleep_desired<<" not valid!"<<std::endl;
+      return 1;
+    }
+    sleep_s = sleep_desired;
+  }
+  
 
-  std::array<std::string,4> values={
-    "0",
-    "0",
-    "0",
-    "0",
-  };
+  auto config_endpoints= config_lookup(&config,"endpoints");
+  if (!config_endpoints){
+    std::cerr<<"endpoints not found in config file!"<<std::endl;
+    return 1;
+  }
+  int elem_counter=0;
+  config_setting_t *config_endpoint_i;
+  while ( (config_endpoint_i = config_setting_get_elem(config_endpoints,elem_counter)) ){
+
+    std::cerr<<"Setting up endpoint "<<elem_counter<<std::endl;
+
+    auto key_name_ptr = config_setting_get_member(config_endpoint_i,"key");
+    if (!key_name_ptr){
+      std::cerr<<"Could not locate key name in config!"<<std::endl;
+      return 1;
+    }
+    auto key_name = config_setting_get_string(key_name_ptr);
+    if (!key_name){
+      std::cerr<<"Could not locate key name in config!"<<std::endl;
+      return 1;
+    }
+    auto endpoint_ptr = config_setting_get_member(config_endpoint_i,"node");
+    if (!endpoint_ptr){
+      std::cerr<<"Could not find node location in config!"<<std::endl;
+      return 1;
+    }
+    auto node = config_setting_get_string(endpoint_ptr);
+    if (!key_name){
+      std::cerr<<"Could not find node location in config!"<<std::endl;
+      return 1;
+    }
+
+    endpoints.push_back(node);
+    keynames.push_back(key_name);
+    values.push_back("0");
+    
+    elem_counter++;
+  }
+    
+
+  config_destroy(&config);
+
+  //Now, set up webserver to serve the data
+
 
   using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
   std::unordered_map<std::string,std::string> kvpairs;
@@ -83,7 +143,7 @@ int main (){
 
 
   while(1){
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::seconds(sleep_s));
     std::cerr<<"Reading ... "<<std::endl;
     for (size_t i=0;i<endpoints.size();i++){
       float f;
