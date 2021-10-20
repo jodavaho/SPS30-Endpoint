@@ -1,3 +1,7 @@
+# What is this
+
+A systemd-integrated, openmetrics-spewing utility for a rasp pi that has an SPS30 connected.
+
 # Binary requires 
 
 - Nothing 
