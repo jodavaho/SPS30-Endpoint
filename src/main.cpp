@@ -138,8 +138,11 @@ int main (){
 
     std::stringstream ss;
     for (size_t i=0;i<keynames.size();i++){
-      ss<<keynames[i]<<"="<<values[i]<<std::endl;
+      ss<<"# TYPE sps30_particle_gauge_"<< keynames[i]<<" gauge"<<std::endl;
+      ss<<"# HELP sps30_particle_gauge_"<< keynames[i]<<" \"The mass concentration measured in micrograms per cubic meter.\""<<std::endl;
+      ss<<"sps30_particle_gauge_"<< keynames[i]<<" "<<values[i]<<std::endl;
     }
+    ss<<"# eof"<<std::endl;
 
     std::cerr << request->remote_endpoint().address().to_string() << ":" << request->remote_endpoint().port()<<std::endl;
     std::cerr << request->method << " " << request->path << " HTTP/" << request->http_version <<std::endl;

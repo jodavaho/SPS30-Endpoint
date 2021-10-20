@@ -36,11 +36,10 @@ do
   sed -e "s/Version: v/Version: /g" -i deb_build/$BUILDDIR/DEBIAN/control
 
   # Echo them for fun
-  cat deb_build/$BUILDDIR$prefix/share/man/man1/piaq.1
   cat deb_build/$BUILDDIR/DEBIAN/control
-  pushd deb_build
 
   # Package it up
+  pushd deb_build
   dpkg-deb --build --root-owner-group $BUILDDIR
   popd
 
