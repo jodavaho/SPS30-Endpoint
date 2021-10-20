@@ -21,6 +21,8 @@ See [Installing Binary](#installing-binary-only)
 
 Try: `fetch_deps.sh` on ubuntu
 
+Otherwise:
+
 - libconfig-dev
 - make (gnu)
 - g++

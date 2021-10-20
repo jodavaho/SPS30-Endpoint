@@ -1,9 +1,12 @@
 mkdir -p deps
-git clone https://gitlab.com/eidheim/Simple-Web-Server deps/SimpleWebServer
-# Needed for buliding SimpleWebServer in
 sudo apt install libasio-dev
+sudo apt install libconfig-dev
+git clone https://gitlab.com/eidheim/Simple-Web-Server deps/SimpleWebServer
 git clone https://github.com/hyperrealm/libconfig deps/libconfig
-echo "Building libconfig once and for all ... "
+echo "Building dependencies ... "
+
+
+echo "Building libconfig"
 cd deps/libconfig
 for arch in arm-linux-gnueabi x86_64-linux-gnu
 do

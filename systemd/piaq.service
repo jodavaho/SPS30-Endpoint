@@ -1,0 +1,6 @@
+[Unit]
+Description="Serves up i2c sps30 data for prometheus"
+
+[Service]
+ExecStart=/usr/bin/piaq
+#Restart=always

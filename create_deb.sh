@@ -17,6 +17,7 @@ do
   mkdir -p deb_build/$BUILDDIR$prefix/bin
   mkdir -p deb_build/$BUILDDIR$prefix/share/man/man1
   mkdir -p deb_build/$BUILDDIR/etc/piaq
+  mkdir -p deb_build/$BUILDDIR/etc/systemd/system
   make install ARCH=$arch prefix=$prefix DESTDIR=deb_build/$BUILDDIR
   sed -e "s/piaq 0.0/piaq $version/g" -i deb_build/$BUILDDIR$prefix/share/man/man1/piaq.1
   sed -e "s/Version: 0.0/Version: $version/g" -i deb_build/$BUILDDIR/DEBIAN/control

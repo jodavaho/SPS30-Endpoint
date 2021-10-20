@@ -14,6 +14,7 @@ install: bin/piaq-$(ARCH)
 	install bin/piaq $(DESTDIR)$(prefix)/bin/
 	install man/piaq.1 $(DESTDIR)$(prefix)/share/man/man1/
 	install config/piaq.conf $(DESTDIR)/etc/piaq/
+	install systemd/piaq.service $(DESTDIR)/etc/systemd/system/
 
 clean:
 	rm bin -rf
