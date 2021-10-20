@@ -10,7 +10,7 @@ you *do* need to have your sps30 set up on your pi / device, and you *do* need t
 
 ## Installation on Raspberry Pi
 
-1. just download `deb/piaq-v0.9.0_arm-linux-gnueabi.deb` to your pi and `dpkg -i piaq-v0.9.0_arm-linux-gnueabi.deb`. 
+1. just download the latest `.deb` file from `releases/` to your pi and install with `dpkg`. For example, to install v1.9.0, do: `dpkg -i piaq-v1.9.0_arm-linux-gnueabi.deb`. 
 2. From any machine that's networked, or the pi itself, `curl <pi's IP>:8051` to see your values.
 
 Configure `/etc/piaq/piaq.conf` till your heart's content to change port, the files to query, and the time to sleep between queries.
@@ -19,8 +19,9 @@ Configure `/etc/piaq/piaq.conf` till your heart's content to change port, the fi
 
 See issues. 
 
-- Systemd integration
-- cli args
+- configuration quality of life
+- generality to other sensors
+- cli args and client apps
 
 See [Installing Binary](#installing-binary-only)
 
@@ -60,7 +61,8 @@ make ARCH=arm-linux-gnueabi
 
 # Installing binary only
 
-Just grab a deb in deb/
+Just grab a deb in releases/
+
 ```
 dpkg -i deb/piaq-<version>-<arch>.deb
 ```
