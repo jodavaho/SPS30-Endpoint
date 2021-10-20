@@ -1,6 +1,6 @@
 # What is this
 
-A systemd-integrated, openmetrics-spewing utility for a rasp pi that has an SPS30 connected.
+A systemd-integrated, openmetrics-spewing utility for a rasp pi that has an SPS30 connected. Nice for [prometheus](https://prometheus.io) monitoring.
 
 # Binary requires 
 
