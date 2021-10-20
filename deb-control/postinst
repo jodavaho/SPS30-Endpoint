@@ -1,0 +1,5 @@
+#!/bin/sh
+
+systemctl enable piaq
+systemctl start piaq
+echo "PIAQ is now up and running. Configure /etc/piaq/piaq.conf to configure and use systemctl to start/stop enable/disable"

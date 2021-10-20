@@ -1,0 +1,5 @@
+#!/bin/sh
+
+systemctl stop piaq
+systemctl disable piaq
+echo "Removed piaq service"
