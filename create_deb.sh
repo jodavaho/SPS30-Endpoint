@@ -45,4 +45,4 @@ do
 
 done
 
-mv deb_build/*.deb deb/
+mv deb_build/*.deb releases/
